@@ -1,10 +1,6 @@
-
 console.log("in popup2");
 exportButton = document.getElementById("exportNow");
-//console.log(exportButton);
 exportButton.addEventListener('click', function() {
-	console.log("Try to find this console message! :)");
-	console.log("calling on Success now");
 	loadURL();
 	console.log("past loadURL");
 });
@@ -21,9 +17,20 @@ exportButton.addEventListener('click', function() {
   function loadURL() {
   	console.log("in loadURL");
   	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log("ready");
+			//callScript();
+		}
+	}
 	xhr.open("GET", "https://script.google.com/macros/d/1eydgiLo6PD4JB5Nfdv-rNP9L-vW43busr5fUBo6DZ9HEew5JnmRIQImH/edit?template=app", true);
+	xhr.send();
+	//callScript();
+  }
+ 
+ function callScript() {
 	console.log("hi");  
-    google.script.run.withSuccessHandler(onSuccess)
+	google.script.run.withSuccessHandler(onSuccess) //error here
         .export_gcal_to_gsheet();    
     return false;
   }
